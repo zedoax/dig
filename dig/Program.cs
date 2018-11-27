@@ -432,12 +432,20 @@ namespace dig
 
             public override string ToString()
             {
+                // Opcode
                 var op = (FlagOne & 120) >> 3;
+                // Status
                 var status = FlagTwo & 15;
+                // Query Response Flag
+                var qr = (FlagOne & 128) >> 7 == 1;
+                // Recursion Desired Flag
+                var rd = (FlagOne & 1) == 1;
+                // Recursion Available Flag
+                var ra = (FlagTwo & 128) >> 7 == 1;
                 return
                     "opcode: " + (Opcode)op + ", status: " + (Status)status +
                     ", id: " + Id +
-                    ", flags: " + FlagOne + FlagTwo +
+                    ", flags: " + (qr ? "qr " : "") + (rd ? "rd " : "") + (ra ? "ra " : "") + 
                     ", QUERY: " + QuestionCount + ", ANSWER: " + AnswerCount +
                     ", AUTHORITY: " + Authorityrrs +
                     ", ADDITIONAL: " + Additionalrrs;
